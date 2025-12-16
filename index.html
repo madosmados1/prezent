@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dla Agaty ❤️</title>
+    <style>
+        :root {
+            --pink: #e91e63;
+            --soft-pink: #fce4ec;
+            --light-green: #f1f8e9;
+            --border-green: #c8e6c9;
+            --dark-green: #2e7d32;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fceceb;
+            color: #444;
+            overflow-x: hidden;
+        }
+
+        /* --- SERDUSZKA W TLE --- */
+        .heart-particle {
+            position: fixed;
+            top: -10%;
+            pointer-events: none;
+            z-index: 5000;
+            animation: fall linear infinite;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* --- EKRAN BLOKADY --- */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 4000;
+        }
+
+        .lock-box {
+            background: var(--light-green);
+            padding: 40px;
+            border-radius: 40px;
+            text-align: center;
+            border: 6px solid var(--pink);
+            animation: pulse-miganie 1.5s infinite ease-in-out;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        @keyframes pulse-miganie {
+            0% { transform: scale(1); border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+            50% { transform: scale(1.03); border-color: #ff80ab; box-shadow: 0 0 30px #ff80ab; }
+            100% { transform: scale(1); border-color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+        }
+
+        /* --- GŁÓWNA TREŚĆ --- */
+        #main-content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .full-card {
+            background: white;
+            width: 100%;
+            padding: 25px;
+            border-radius: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        /* --- LICZNIK --- */
+        .counter-container {
+            background: var(--light-green);
+            padding: 20px;
+            border-radius: 25px;
+            width: 100%;
+        }
+        .counter-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .counter-unit {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            min-width: 80px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            flex: 1;
+        }
+        .counter-unit span { display: block; font-size: 1.8em; font-weight: bold; color: var(--pink); }
+
+        /* --- POWODY --- */
+        .reasons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .reason-card {
+            background: var(--light-green);
+            padding: 18px;
+            border-radius: 15px;
+            border-left: 8px solid var(--dark-green);
+            text-align: left;
+            font-size: 1em;
+            transition: 0.3s;
+        }
+
+        /* --- GALERIA --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .gallery img, .gallery video {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        /* --- LIST --- */
+        .envelope-box {
+            font-size: 80px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        #letter-text {
+            display: none;
+            text-align: left;
+            background: #fffdf5;
+            padding: 25px;
+            border-radius: 20px;
+            line-height: 1.6;
+            border: 1px solid #f0e68c;
+            white-space: pre-wrap;
+        }
+
+        /* --- SERCE --- */
+        .heart-beat {
+            font-size: 80px;
+            color: var(--pink);
+            animation: beat 0.8s infinite;
+            margin: 30px 0;
+        }
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .btn-action {
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        input[type="date"] {
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            width: 100%;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lock-screen">
+        <div class="lock-box">
+            <div style="font-size: 50px;">🔒</div>
+            <h2 style="color: var(--dark-green);">Cześć misiek ❤️</h2>
+            <p>Wprowadź datę swoich urodzin:</p>
+            <input type="date" id="bday-input">
+            <button class="btn-action" onclick="checkUnlock()">Odblokuj</button>
+            <p style="font-size: 0.8em; color: #888; margin-top: 20px;">Mały dodatek do prezentu💝</p>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <div class="full-card">
+            <h1 style="color: var(--dark-green); font-size: 2.2em; margin: 0;">Wszystkiego najlepszego Agata! 🎂</h1>
+            <p style="font-size: 1.2em; color: var(--pink); font-weight: bold;">Dla Najpękniejszej Dziewczyny</p>
+            <p>Niby spóźnione ale prosto z serca ❤️✨</p>
+            <div id="cake-icon" style="font-size: 80px; margin: 20px 0;">🎂</div>
+            <button class="btn-action" onclick="blowCake()">Pomyśl życzenie</button>
+        </div>
+
+        <div class="counter-container">
+            <h2 style="color: var(--dark-green); margin-top: 0; text-align: center;">Czas odkąd powiedziałaś "TAK" ❤️</h2>
+            <div class="counter-grid">
+                <div class="counter-unit"><span id="days-val">14</span>DNI</div>
+                <div class="counter-unit"><span id="hours-val">1</span>GODZ</div>
+                <div class="counter-unit"><span id="mins-val">42</span>MIN</div>
+                <div class="counter-unit"><span id="secs-val">0</span>SEK</div>
+            </div>
+            <p style="margin-top: 20px; font-style: italic; text-align: center;">To dopiero sam początek 🐵</p>
+        </div>
+
+        <div class="full-card" style="margin-top: 30px;">
+            <h2 style="color: var(--dark-green);">Dlaczego Cię kocham? 💚</h2>
+            <div class="reasons-list">
+                <div class="reason-card">1. 😊 Za Twój Kąciki, które sprawiają, że szczerzę się jak idiota.</div>
+                <div class="reason-card">2. 🤗 Za to, że przy Tobie czuję się najlepiej.</div>
+                <div class="reason-card">3. ✨ Za Twoją niesamowitą mądrość i dojrzałość.</div>
+                <div class="reason-card">4. 🌟 Za to, że jesteś oryginalna i nie do podrobienia.</div>
+                <div class="reason-card">5. 👀 Za Twoje oczy, w których widzę więcej niż szczęscie i spokój.</div>
+                <div class="reason-card">6. 🗣️ Za nasze rozmowy o wszystkim i o niczym.</div>
+                <div class="reason-card">7. 💖 Za to, że poprawisz zmienić mój nastrój na lepszy gdy mam gorszy dzień.</div>
+                <div class="reason-card">8. 💪 Za to, jak bardzo jestem z Ciebie dumny każdego dnia.</div>
+                <div class="reason-card">9. 👫 Po prostu za to, że wybrałaś właśnie mnie.</div>
+            </div>
+        </div>
+
+        <div class="full-card">
+            <h2 style="color: var(--dark-green);">Nasze Wspomnienia 📸</h2>
+            <div class="gallery">
+                <img src="media/1.jpg" alt="nasze zdjęcie">
+                <img src="media/2.jpg" alt="nasze zdjęcie">
+                <video controls src="media/video1.mp4"></video>
+                <img src="media/3.jpg" alt="nasze zdjęcie">
+            </div>
+        </div>
+
+        <div class="full-card">
+            <div class="envelope-box" onclick="toggleLetter()">✉️</div>
+            <h3 id="env-label">Kliknij, aby otworzyć obiecany list ...</h3>
+            <div id="letter-text">Agata, wreszcie się doczekałaś tego listu.
+Nie ukrywam, że ciężko było mi go napisać, bo nie potrafię takich rzeczy, ale myślę, że Renatka byłaby dumna i w końcu postawiłaby mi chociaż 2 za tę wypowiedź.
+
+Agata Kamińska - najwspanialsza córka, siostra, przyjaciółka, a przede wszystkim dziewczyna. Jesteś osobą, przy której wiele osób czuje się jak w domu w tym ja. Osobą, z którą można porozmawiać na każdy temat. Jak na swój wiek jesteś bardzo mądra i wyrozumiała. Właściwie można spokojnie stwierdzić, że jesteś nad wszystkimi dziewczynami wyżej i to nie tylko w tym aspekcie. Potrafisz zrozumieć rzeczy, których niejedna dorosła osoba by nie zrozumiała, i to jest dla mnie naprawdę niesamowite.
+
+Kocham w Tobie każdy aspekt i każdą część Ciebie dosłownie każdą. Czy to tę wredną, gdy się droczysz, czy tę najbardziej czułą, kiedy jesteś zmęczona albo troskliwa. Nawet momenty, w których się złościsz, są Twoje, oryginalne i nie do podrobienia. I właśnie za tę całą oryginalność kocham Cię jeszcze bardziej.
+Kocham Twoje kąciki wystarczy, że je zobaczę i od razu szczerze jak jakiś idiota. Kocham Twoje oczy, bo kiedy w nie patrzę, widzę coś więcej niż tylko gwiazdy. Widzę coś, co sprawia, że wszystko inne nagle przestaje mieć znaczenie i bez zastanowienia zawsze wybieram Ciebie.
+Kocham też to, że kiedy jestem obok Ciebie, czuję się jak ten mały dzieciak Maciek, który szczerze mówiąc dawno ze mnie nie wychodził. Wystarczy jedno spojrzenie na Ciebie i zapominam o wszystkich problemach. Nie mam pojęcia, jak Ty to robisz, ale potrafisz zmienić mój humor, nastawienie i cały dzień w ułamku sekundy. I myślę, że ta moja upartość na samym początku, kiedy mnie odrzucałaś, była najlepszą upartością w moim życiu. Mógłbym wymieniać i wymieniać co w Tobie kocham ale wtedy gwarantuje Ci, że ten list by nie dotarł w tym roku, dlatego wolę powiedzieć Ci to w twarz Kocham Cię i jestem bardzo bardzo dumny z Ciebie i cieszę się, że cię mam.
+
+Lubię nasze rozmowy, nawet te o niczym. Lubię ciszę z Tobą, śmiech z Tobą i po prostu bycie obok. Przy Tobie wszystko jest jakieś lepsze i o wiele wiele łatwiejsze.
+Spóźniony list i spóźniony prezent lecz dotarł i jest prosto od serca.😉
+Kocham Cię i pamiętaj, że zawsze tu będę czy na dobre, czy na złe. Z każdym problemem, pytaniem, nawet tym najgłupszym chociaż nie ma głupich pytań są tylko głupie odpowiedzi, możesz do mnie przyjść.
+A i czy wspominałem już, że mam najpiękniejszą dziewczynę na świecie?
+
+Jeszcze raz 100 lat misiek!🥳🎈🎂</div>
+        </div>
+
+        <div class="heart-beat">❤️</div>
+        <h2 style="color: var(--pink); font-size: 1.8em; text-align: center;">BARDZO CIĘ KOCHAM!</h2>
+        <p style="margin-bottom: 100px; text-align: center;">Zostaje nie masz wyboru</p>
+    </div>
+
+    <script>
+        function spawnHeart() {
+            const h = document.createElement('div');
+            h.classList.add('heart-particle');
+            h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
+            h.style.left = Math.random()*100+"vw";
+            h.style.animationDuration = Math.random()*3+2+"s";
+            h.style.fontSize = Math.random()*20+15+"px";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 5000);
+        }
+        setInterval(spawnHeart, 300);
+
+        function checkUnlock() {
+            const val = document.getElementById('bday-input').value;
+            if(val === "2009-12-11") {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'flex';
+                runCounter();
+            } else { alert("Zła data, spróbuj jeszcze raz! ❤️"); }
+        }
+
+        function runCounter() {
+            // Ustawienia startowe zgodne z Twoją prośbą
+            let d = 14;
+            let h = 1;
+            let m = 42;
+            let s = 0;
+
+            setInterval(() => {
+                s++;
+                if(s >= 60) { s = 0; m++; }
+                if(m >= 60) { m = 0; h++; }
+                if(h >= 24) { h = 0; d++; }
+
+                document.getElementById('days-val').innerText = d;
+                document.getElementById('hours-val').innerText = h;
+                document.getElementById('mins-val').innerText = m;
+                document.getElementById('secs-val').innerText = s;
+            }, 1000);
+        }
+
+        function toggleLetter() {
+            const l = document.getElementById('letter-text');
+            const label = document.getElementById('env-label');
+            if(l.style.display === 'block') {
+                l.style.display = 'none';
+                label.innerText = 'Kliknij, aby otworzyć list...';
+            } else {
+                l.style.display = 'block';
+                label.innerText = 'Kliknij ponownie, aby zamknąć list...';
+            }
+        }
+
+        function blowCake() {
+            document.getElementById('cake-icon').innerText = '🍰';
+            alert("Życzenie pomyślane! Wszystkiego najlepszego! ❤️");
+        }
+    </script>
+</body>
+</html>
